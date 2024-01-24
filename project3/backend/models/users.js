@@ -45,7 +45,8 @@ async function loginUser(body) {
   const jwtPayload = {
     user: user.name,
     email: user.email,
-    is_admin: user.is_admin
+    is_admin: user.is_admin,
+    userId: user._id
   };
   const token = utilSecurity.createJWT(jwtPayload);
   const expiry = utilSecurity.getExpiry(token);

@@ -3,7 +3,8 @@ const modelDayCards = require("../models/daycard");
 
 module.exports = {
     getJournalEntry,
-    createJournalEntry
+    createJournalEntry,
+    getJournalEntriesByUserAndMonth
 };
 
 async function getJournalEntry(req, res) {
@@ -30,6 +31,17 @@ async function createJournalEntry(req, res) {
         await modelDayCards.updateDayCardWithJournalEntry(journalEntry._id, req.body.card_id);
 
         res.status(201).json(journalEntry);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ errorMsg: err.message });
+    }
+}
+
+async function getJournalEntriesByUserAndMonth(req, res) {
+    const { userId, year, month } = req.params;
+    try {
+        const entries = await modelJournalEntry.getJournalEntriesByUserAndMonth(userId, parseInt(year), parseInt(month));
+        res.json(entries);
     } catch (err) {
         console.error(err);
         res.status(500).json({ errorMsg: err.message });

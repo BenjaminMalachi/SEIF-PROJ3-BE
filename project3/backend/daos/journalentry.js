@@ -32,7 +32,3 @@ const journalEntrySchema = new Schema({
   });
   
   module.exports = mongoose.model('JournalEntry', journalEntrySchema);
-  
-
-
-

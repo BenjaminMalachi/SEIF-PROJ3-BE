@@ -4,6 +4,7 @@ module.exports = {
   getJournalEntry,
   getJournalEntryById,
   createJournalEntry,
+  getJournalEntriesByUserAndMonth
 };
 
 // This function will return a promise that resolves to the list of entries that match the query fields
@@ -21,4 +22,12 @@ function getJournalEntryById(id) {
     return JournalEntry.findById(id);
 }
 
+function getJournalEntriesByUserAndMonth(userId, year, month) {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 0);
 
+    return JournalEntry.find({
+        user_id: userId,
+        date: { $gte: startDate, $lte: endDate }
+    }).sort({ date: -1 });
+}
